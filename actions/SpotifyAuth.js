@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Credentials from '../secrets/SpotifyCredentials';
 import Base64 from 'Base64';
 
+
 //Spotify Secrets
 const CLIENT_ID = Credentials.CLIENT_ID;
 const CLIENT_SECRET = Credentials.CLIENT_SECRET;
@@ -19,7 +20,7 @@ const scopesArr = ['user-modify-playback-state','user-read-currently-playing','u
 const scopes = scopesArr.join(' ');
 
 
-export default async function PressMe()
+export default async function SpotifyAuth()
 {
     try {
 
@@ -39,7 +40,6 @@ export default async function PressMe()
     //2. Have your application request refresh and access tokens; Spotify returns access and refresh tokens
       const credsB64 = Base64.btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
 
-
       if (results.type !== 'success') {
           console.log("Theres an issue...")
       }
@@ -57,7 +57,6 @@ export default async function PressMe()
           body: `grant_type=authorization_code&code=${results.params.code}&redirect_uri=${encodeURIComponent(redirectUrl)}`,
         });
 
-        console.log("...got it");
 
         var responseJson = await response.json();
 
@@ -81,11 +80,10 @@ export default async function PressMe()
         body: JSON.stringify(data),
       });
 
+
+      //
       var hello  = await apithings.json();
       console.log(hello);
-
-
-
 
       }
 }

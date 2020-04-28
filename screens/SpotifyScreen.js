@@ -5,8 +5,10 @@ import { Linking } from 'expo';
 import * as WebBrowser from 'expo-web-browser';
 import { FontAwesome } from '@expo/vector-icons';
 import Base64 from 'Base64';
-import PressMe from '../actions/SpotifyAuth';
+import SpotifyAuth from '../actions/SpotifyAuth';
 
+
+//Feel Free to edit this... It 
 export default class App extends React.Component {
   state = {
     userInfo: null,
@@ -63,7 +65,7 @@ render() {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={PressMe}
+        onPress={SpotifyAuth}
         disabled={this.state.userInfo ? true : false}
       >
         <Text style={styles.buttonText}>

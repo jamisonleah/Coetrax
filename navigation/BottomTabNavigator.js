@@ -9,7 +9,7 @@ import SpotifyScreen from '../screens/SpotifyScreen';
 
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Spotify';
+const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -27,14 +27,6 @@ export default function BottomTabNavigator({ navigation, route }) {
         tabBarIcon: ({ focused }) => <MaterialIcons focused={focused} name="add-to-queue" />,
       }}
     />
-      <BottomTab.Screen
-        name="Spotify"
-        component={SpotifyScreen}
-        options={{
-          title: 'Spotify',
-          tabBarIcon: ({ focused }) => <MaterialIcons focused={focused} name="add-to-queue" />,
-        }}
-      />
     </BottomTab.Navigator>
   );
 }

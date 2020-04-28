@@ -10,9 +10,6 @@ const [value, onChangeText] = useState("Hello");
   return (
     <View style={styles.container}>
         <Text style={styles.h1}> Sign in </Text>
-
-        <TextInput style={styles.input} onChangeText={text => onChangeText(text)} />
-
     </View>
 
   );
@@ -20,7 +17,7 @@ const [value, onChangeText] = useState("Hello");
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: 'coral',
+    backgroundColor: 'black',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -30,13 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 50,
     fontWeight: 'bold',
+    color: 'white',
   },
-  input:
-  {
-    backgroundColor: 'white',
-    width: 250,
-    height: 50,
-    borderRadius: 50,
-    padding: 10,
-  }
 });
