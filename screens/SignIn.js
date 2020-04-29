@@ -9,7 +9,7 @@ export default function HomeScreen() {
 const [value, onChangeText] = useState("Hello");
   return (
     <View style={styles.container}>
-    <Text style={styles.h1}> Coetrax </Text> 
+    <Text style={styles.h1}> Coetrax </Text>
     <View style={styles.input_container}>
     <TextInput
       style={styles.input_bar}
@@ -35,7 +35,7 @@ const [value, onChangeText] = useState("Hello");
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: '#424963',
+    backgroundColor: '#424953',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

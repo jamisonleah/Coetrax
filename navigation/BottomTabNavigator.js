@@ -20,7 +20,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   const hello = {
     style:
     {
-      backgroundColor: '#646C77',
+      backgroundColor: '#424953',
     }
   };
 

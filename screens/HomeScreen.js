@@ -9,7 +9,7 @@ export default function HomeScreen() {
 const [value, onChangeText] = useState("Hello");
   return (
     <View style={styles.container}>
-        <Text style={styles.h1}> Sign in </Text>
+        <Text style={styles.h1}> Sign in </Text> 
     </View>
 
   );
