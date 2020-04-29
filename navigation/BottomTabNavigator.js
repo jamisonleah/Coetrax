@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import TabBarIcon from '../components/TabBarIcon';
 import MaterialIcons from '../components/MaterialIcons';
-import HomeScreen from '../screens/HomeScreen';
+import SignIn from '../screens/SignIn';
 import LinksScreen from '../screens/LinksScreen';
 import SpotifyScreen from '../screens/SpotifyScreen';
 
@@ -17,14 +17,21 @@ export default function BottomTabNavigator({ navigation, route }) {
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
+  const hello = {
+    style:
+    {
+      backgroundColor: '#646C77',
+    }
+  };
+
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator tabBarOptions={hello} initialRouteName={INITIAL_ROUTE_NAME}>
     <BottomTab.Screen
-      name="Home"
-      component={HomeScreen}
+      name="SignIn"
+      component={SignIn}
       options={{
-        title: 'Home',
-        tabBarIcon: ({ focused }) => <MaterialIcons focused={focused} name="add-to-queue" />,
+        title: 'SignIn',
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
       }}
     />
     </BottomTab.Navigator>
@@ -39,3 +46,17 @@ function getHeaderTitle(route) {
       return 'Sign Into Spotify';
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    backgroundColor: 'black',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  bottomColor:
+  {
+    backgroundColor: 'black',
+    color: 'white',
+  },
+});
