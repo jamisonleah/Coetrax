@@ -2,36 +2,47 @@ import * as WebBrowser from 'expo-web-browser';
 import React, {useState} from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
 import { MonoText } from '../components/StyledText';
+import SignIn from '../actions/AppAuth';
+
+
 
 export default function HomeScreen() {
-const [value, onChangeText] = useState("Hello");
+  var username;
+  var password;  
+  const onUsernameChange = (text) => username = text;
+  const onPasswordChange = (text) => password = text;
+  const onPressSignIn = () => SignIn(username, password);
+  
   return (
     <View style={styles.container}>
-    <Text style={styles.h1}> Coetrax </Text>
-    <View style={styles.input_container}>
-    <TextInput
-      style={styles.input_bar}
-      //onChangeText={text => onChangeText(text)}
-      value={value}
-      />
-      <TextInput
-        style={styles.input_bar}
-        secureTextEntry = {true}
-        //onChangeText={}
-        value={value}
-        />
-        <Text style={styles.white_text}> Forgot Password? </Text>
-        </View>
-        <TouchableOpacity style={styles.sign_in_button}>
-          <Text style={styles.sign_in_button_text}> Log in </Text>
-        </TouchableOpacity>
-        <Text style={styles.white_text}> Don't have an account? <Text style={styles.blue_text}> Sign Up </Text>  </Text>
+      <Text style={styles.h1}> Coetrax </Text>
+      <View style={styles.input_container}>
+          <TextInput
+            style={styles.input_bar}
+            onChangeText={text => onUsernameChange(text)}
+            value={username}
+          />
+          <TextInput
+            style={styles.input_bar}
+            secureTextEntry = {true}
+            onChangeText={text => onPasswordChange(text)}
+            value={password}
+          />
+          <Text style={styles.white_text}> Forgot Password? </Text>
+      </View>
+      <TouchableOpacity 
+      style={styles.sign_in_button}
+      onPress={onPressSignIn}>
+          <Text style={styles.sign_in_button_text}> Sign In </Text>
+      </TouchableOpacity>
+      <Text style={styles.white_text}> Don't have an account? 
+        <Text style={styles.blue_text}> Sign Up </Text> 
+      </Text>
     </View>
-
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
@@ -41,31 +52,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: 'white',
   },
-  blue_text:
-  {
+
+  blue_text: {
     color: '#35bb9b',
   },
-  white_text:
-  {
+
+  white_text: {
     color: 'white',
   },
-  input_container:
-  {
+
+  input_container: {
     color: 'black',
     marginTop: 50,
     marginBottom: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  h1:
-  {
+
+  h1: {
     alignItems: 'center',
     fontSize: 50,
     fontWeight: 'bold',
     color: 'white',
   },
-  input_bar:
-  {
+
+  input_bar: {
     margin: 20,
     height: 50,
     width: 350,
@@ -75,13 +86,13 @@ const styles = StyleSheet.create({
     padding: 10,
     color: '#424963',
   },
-  sign_in_button_text:
-  {
+
+  sign_in_button_text: {
     color: 'white',
     fontSize: 15,
   },
-  sign_in_button:
-  {
+
+  sign_in_button: {
     margin: 25,
     backgroundColor: '#35bb9b',
     paddingHorizontal: 25,
@@ -90,5 +101,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 150,
   },
-
 });
