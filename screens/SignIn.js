@@ -11,13 +11,15 @@ export default function SignIn({navigation}) {
 
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
-  const onPressSignIn = () => {
+  const onPressSignIn = async () => {
     signInAttempts += 1;
     //console.log(signInAttempts);
-    let response = Auth_SignIn(email, password);
-    console.log(response);
-    if(response) {
+    let response = await Auth_SignIn(email, password);
+    console.log(response.status);
+    if(response.status == 200) {
       navigation.navigate('Coetrax')
+    } else {
+      // console.log(response.json)
     }
   }
   const calculateRemainingAttempts = () => maxSignInAttempts - signInAttempts;

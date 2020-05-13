@@ -13,20 +13,13 @@ export default async function Auth_SignIn(email = '', password = '') {
                 email : email,
                 password : password
             })
-        })
-        // console.log(response.status) //-- HTTP response code    
-        // console.log(json); //-- Json Object with data
-        //return processResponse(response);
+        });
+        
+        //const json = await response.json();
+        //console.log(response.status) //-- HTTP response code    
+        //console.log(json); //-- Json Object with data
+        return response
     } catch (error) {
         console.log(error)
     }
 } 
-
-function processResponse(response) {
-    const statusCode = response.status;
-    const data = response.json();
-    return Promise.all([statusCode, data]).then(result => ({
-      statusCode: result[0],
-      data: result[1]
-    }));
-  }
