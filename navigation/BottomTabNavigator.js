@@ -6,6 +6,8 @@ import MaterialIcons from '../components/MaterialIcons';
 import SignIn from '../screens/SignIn';
 import LinksScreen from '../screens/LinksScreen';
 import SpotifyScreen from '../screens/SpotifyScreen';
+import HomeScreen from '../screens/HomeScreen';
+import PartyQueuePage from '../screens/PartyQueuePage';
 
 
 const BottomTab = createBottomTabNavigator();
@@ -20,13 +22,21 @@ export default function BottomTabNavigator({ navigation, route }) {
   const hello = {
     style:
     {
-      backgroundColor: '#424953',
+      backgroundColor: 'black',
     }
   };
 
   return (
     <BottomTab.Navigator tabBarOptions={hello} initialRouteName={INITIAL_ROUTE_NAME}>
     <BottomTab.Screen
+      name="JoinQueue"
+      component={PartyQueuePage}
+      options={{
+        title: 'PartyQueue',
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
+      }}
+    />
+    {/* <BottomTab.Screen
       name="SignIn"
       component={SignIn}
       options={{
@@ -34,6 +44,14 @@ export default function BottomTabNavigator({ navigation, route }) {
         tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
       }}
     />
+    <BottomTab.Screen
+      name="SignIn"
+      component={SignIn}
+      options={{
+        title: 'SignIn',
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
+      }}
+    /> */}
     </BottomTab.Navigator>
   );
 }
