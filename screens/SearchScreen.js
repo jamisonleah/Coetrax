@@ -3,56 +3,136 @@ import React, {useState} from 'react';
 import { Image, SafeAreaView, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import SongSearch from '../actions/songSearch'
+import SearchIcon from '../components/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AnimatedLoader from 'react-native-animated-loader';
+
 
 export default function SearchScreen()
 {
-const [search_item, onChangeValue] = useState("");
-let [stuff, displayResults] = useState([]);
-const [results, setResults] = useState("");
-const searchTime = async () => {
-  displayResults([]);
-  var text = await SongSearch(search_item);
-  setResults(text);
-  create_results();
+    const [search_item, onChangeValue] = useState("");
+    let [stuff, displayResults] = useState([]);
+    const [results, setResults] = useState({});
+
+
+const searchTime = async () =>
+{
+    var text = await SongSearch(search_item);
+    setResults(text);
+    console.log("text:" + results);
+    create_results();
+
 };
 
-const create_results = async () =>
+const create_results = () =>
 {
-
+  try
+  {
+    console.log("PRessed");
+    console.log("what is life" + results);
     let keys = 0;
     for(var objects in results)
     {
       var ob = results[objects];
-      for(var index = 0; index < ob.length; index ++)
+      switch(objects)
       {
-        displayResults(stuff => stuff.concat(
-          <View style={styles.songs}>
-          <Text key = {keys}> {(ob[index].name)} </Text>
-          </View>
-        ));
-        keys++;
-        console.log(ob[index].name);
-      }
+      case "tracks":
+        for(var index = 0; index < ob.length; index ++)
+          {
+            displayResults(stuff => stuff.concat(
+                <View key={keys} style={styles.songs}>
+                <Image key={keys} style={styles.img}  source={{ uri: ob[index].album[0].images[0].url}}/>
+
+                    <View key={"songinfo" + keys} style={styles.songInfo}>
+                    <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name} </Text>
+                    <Text key={keys} style ={styles.whiteText} >
+                    Song
+                    <MaterialIcons key={keys} style={styles.dotIcon} name="music-note" size={15} color="white" />
+                    {ob[index].artists[0].name}
+                    </Text>
+                    </View>
+                  </View>
+            ));
+            keys++;
+          } //end of for loop
+        break;
+        case "albums":
+        for(var index = 0; index < ob.length; index ++)
+          {
+                displayResults(stuff => stuff.concat(
+                    <View key={keys} style={styles.songs}>
+
+                    <Image key={keys} style={styles.img}  source={{uri: ob[index].images[0].url}}/>
+
+                        <View key={"albuminfo" + keys} style={styles.songInfo}>
+                        <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name} </Text>
+                        <Text key={keys} style ={styles.whiteText} >
+                        Album
+                        <MaterialIcons key={keys} style={styles.dotIcon} name="album" size={15} color="white" />
+                        {ob[index].artists[0].name}
+                        </Text>
+                        </View>
+                      </View>
+
+                    ));
+                    keys++;
+          } //end of for loop
+          break;
+          case "artists":
+          for(var index = 0; index < ob.length; index ++)
+            {
+                var imge = ob[index].images[0].url;
+                console.log(keys + imge);
+                  if(imge == null)
+                  {
+                    imge = '';
+                  }
+                  displayResults(stuff => stuff.concat(
+                      <View key={keys} style={styles.songs}>
+                      <Image key={keys} style={styles.imgcrlc}  source={{uri: imge}}/>
+
+                          <View key={"albuminfo" + keys} style={styles.songInfo}>
+                          <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name}
+                              <MaterialCommunityIcons name="artist" size={15} color="white" />
+                          Artists </Text>
+
+
+                          </View>
+                        </View>
+                      ));
+                      keys++;
+                    }
+            break;
+      } // end of case statements
     }
+  } catch(e)
+  {
+
+  }
 }
 
 return (
   <View style={styles.container}>
-    <Text> Search Page </Text>
-    <TextInput
-      style={styles.input_bar}
-      onChangeText = {search => onChangeValue(search)}
-    />
+        <View style={styles.searchSection}>
+            <View style={styles.searchIcon}>
+            <SearchIcon style={styles.searchIcon} name="search"/>
+            </View>
+              <TextInput
+                style={styles.input_bar}
+                onChangeText = {search => {
+                  onChangeValue(search);
+                  }}
+                />
+                <TouchableOpacity style={styles.SearchButton} onPress={searchTime}>
+                    <Text style={styles.ButtonText}> Search </Text>
+                </TouchableOpacity>
+        </View>
 
-    <TouchableOpacity style={styles.sign_in_button} onPress={searchTime}>
-        <Text style={styles.sign_in_button_text}> Search </Text>
-    </TouchableOpacity>
-
-    <View>
-    <ScrollView style={styles.white}>
+    <ScrollView style={styles.scroll} keyboardShouldPersistTaps='always'>
       {stuff}
-      </ScrollView>
-    </View>
+    </ScrollView>
+
   </View>
 
 
@@ -61,77 +141,106 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    backgroundColor: '#424953',
+    backgroundColor: '#1D2025',
     flex: 1,
-    alignItems: 'center',
-    //justifyContent: 'center',
-    color: 'white',
   },
-  songs:
+  dotIcon:
   {
+    padding: 15
+  },
+  scroll:
+  {
+    paddingTop: 20,
     flex: 1,
-    backgroundColor: '#424953',
-    padding: 15,
-    borderColor: 'black',
-    borderStyle: 'solid',
 
   },
-  white:
-  {
-      height: 100,
-      borderRadius: 10,
-      backgroundColor: '#424953',
-      flex: 1,
-  },
-  blue_text:
-  {
-    color: '#35bb9b',
-  },
-  white_text:
+  whiteText:
   {
     color: 'white',
+    margin: 3
   },
-  input_container:
+  searchIcon:
   {
-    color: 'black',
-    marginTop: 50,
-    marginBottom: 20,
+    height: 50,
+    padding: 10,
+    backgroundColor: '#f4f6f9',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+
+
+  },
+  searchSection:
+  {
+    backgroundColor: '#3E4C59',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  h1:
-  {
     alignItems: 'center',
-    fontSize: 50,
-    fontWeight: 'bold',
-    color: 'white',
+    height: 150,
+    paddingTop: 50,
+    flexDirection: 'row',
   },
   input_bar:
   {
-    margin: 20,
+    flex: 1,
     height: 50,
-    width: 350,
     backgroundColor: '#f4f6f9',
     borderColor: 'white',
-    borderRadius: 10,
-    padding: 10,
+    //borderTopRightRadius: 10,
+    //borderBottomRightRadius: 10,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
     color: '#424963',
   },
-  sign_in_button_text:
+  ButtonText:
   {
-    color: 'white',
+    color: 'black',
     fontSize: 15,
   },
-  sign_in_button:
+  SearchButton:
   {
-    margin: 25,
-    backgroundColor: '#35bb9b',
+    backgroundColor: '#EEC8A0',
     paddingHorizontal: 25,
-    paddingVertical: 20,
+    paddingVertical: 15,
     alignItems: 'center',
-    borderRadius: 50,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
     width: 150,
+    height: 50,
+
   },
+  img:
+  {
+    borderColor: 'black',
+    height: 65,
+    width: 65,
+    paddingRight: 50,
+  },
+  imgcrlc:
+    {
+      borderColor: 'black',
+      height: 65,
+      width: 65,
+      paddingRight: 50,
+      borderRadius: 50,
+    },
+  songs:
+  {
+    flex: 1,
+    flexDirection: 'row',
+    //backgroundColor: '#1D2025',
+    backgroundColor: '#1D2025',
+    height: 100,
+    padding: 20,
+    color: 'black',
+    alignItems: 'center',
+
+  },
+  songInfo:
+  {
+
+    width: 250,
+    padding: 10,
+  }
 
 });

@@ -9,7 +9,6 @@ import Base64 from 'Base64';
 
 export default async function songSearch(searchValue)
 {
-  console.log(searchValue);
   const server = "http://159.203.160.33";
   const endpoint = "/search/";
   try {
@@ -31,16 +30,6 @@ export default async function songSearch(searchValue)
       });
 
       var jsonstuff = await apithings.json();
-      //console.log(jsonstuff);
-      for( var objects in jsonstuff)
-      {
-        //console.log("******"+objects+"*******");
-       var ob = jsonstuff[objects];
-        for(var index = 0; index < ob.length; index ++)
-        {
-          //console.log(ob[index].name);
-        } 
-      }
 
       return jsonstuff;
   } catch (e) {
