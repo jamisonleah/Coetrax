@@ -1,144 +1,160 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, {useState} from 'react';
-import { Image, SafeAreaView, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { Image, SafeAreaView, FlatList ,Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import SongSearch from '../actions/songSearch'
 import SearchIcon from '../components/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AnimatedLoader from 'react-native-animated-loader';
+import ListSearchResults from '../components/ListSearchResults';
 
-
-export default function SearchScreen()
+export default class Search extends React.Component
 {
-    const [search_item, onChangeValue] = useState("");
-    let [stuff, displayResults] = useState([]);
-    const [results, setResults] = useState({});
-
-
-const searchTime = async () =>
-{
-    var text = await SongSearch(search_item);
-    setResults(text);
-    console.log("text:" + results);
-    create_results();
-
-};
-
-const create_results = () =>
-{
-  try
+  constructor(props)
   {
-    console.log("PRessed");
-    console.log("what is life" + results);
-    let keys = 0;
-    for(var objects in results)
+    super(props);
+    this.state =
     {
-      var ob = results[objects];
-      switch(objects)
-      {
-      case "tracks":
-        for(var index = 0; index < ob.length; index ++)
-          {
-            displayResults(stuff => stuff.concat(
-                <View key={keys} style={styles.songs}>
-                <Image key={keys} style={styles.img}  source={{ uri: ob[index].album[0].images[0].url}}/>
-
-                    <View key={"songinfo" + keys} style={styles.songInfo}>
-                    <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name} </Text>
-                    <Text key={keys} style ={styles.whiteText} >
-                    Song
-                    <MaterialIcons key={keys} style={styles.dotIcon} name="music-note" size={15} color="white" />
-                    {ob[index].artists[0].name}
-                    </Text>
-                    </View>
-                  </View>
-            ));
-            keys++;
-          } //end of for loop
-        break;
-        case "albums":
-        for(var index = 0; index < ob.length; index ++)
-          {
-                displayResults(stuff => stuff.concat(
-                    <View key={keys} style={styles.songs}>
-
-                    <Image key={keys} style={styles.img}  source={{uri: ob[index].images[0].url}}/>
-
-                        <View key={"albuminfo" + keys} style={styles.songInfo}>
-                        <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name} </Text>
-                        <Text key={keys} style ={styles.whiteText} >
-                        Album
-                        <MaterialIcons key={keys} style={styles.dotIcon} name="album" size={15} color="white" />
-                        {ob[index].artists[0].name}
-                        </Text>
-                        </View>
-                      </View>
-
-                    ));
-                    keys++;
-          } //end of for loop
-          break;
-          case "artists":
-          for(var index = 0; index < ob.length; index ++)
-            {
-                var imge = ob[index].images[0].url;
-                console.log(keys + imge);
-                  if(imge == null)
-                  {
-                    imge = '';
-                  }
-                  displayResults(stuff => stuff.concat(
-                      <View key={keys} style={styles.songs}>
-                      <Image key={keys} style={styles.imgcrlc}  source={{uri: imge}}/>
-
-                          <View key={"albuminfo" + keys} style={styles.songInfo}>
-                          <Text key={ob[index].name} numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > {ob[index].name}
-                              <MaterialCommunityIcons name="artist" size={15} color="white" />
-                          Artists </Text>
-
-
-                          </View>
-                        </View>
-                      ));
-                      keys++;
-                    }
-            break;
-      } // end of case statements
-    }
-  } catch(e)
-  {
-
+        stuff: [],
+        results: [],
+        search_text: null
+      };
   }
-}
 
-return (
-  <View style={styles.container}>
-        <View style={styles.searchSection}>
-            <View style={styles.searchIcon}>
-            <SearchIcon style={styles.searchIcon} name="search"/>
-            </View>
-              <TextInput
-                style={styles.input_bar}
-                onChangeText = {search => {
-                  onChangeValue(search);
-                  }}
-                />
-                <TouchableOpacity style={styles.SearchButton} onPress={searchTime}>
-                    <Text style={styles.ButtonText}> Search </Text>
-                </TouchableOpacity>
+
+  searchTime = async () =>
+  {
+    if(this.state.search_text)
+    {
+      this.state.stuff = [];
+      var text = await SongSearch(this.state.search_text);
+      var results = this.create_results(text);
+      this.setState({stuff: results});
+    }
+  }
+  typing = (text) =>
+  {
+      this.state.search_text = text;
+      console.log(this.state.search_text);
+  }
+  create_results = (results) =>
+  {
+    try
+    {
+      let keys = 0;
+      var info;
+      var allthestuff = [];
+      var img;
+      for(var objects in results)
+      {
+          var ob = results[objects];
+          switch(objects)
+          {
+            case "tracks":
+            for(var index = 0; index < ob.length; index ++)
+                  {
+                      info =
+                      {
+                          name:       ob[index].name,
+                          image:      ob[index].album[0].images[0].url,
+                          artist:     ob[index].artists[0].name,
+                          type:       "song",
+                          id:         ob[index].id
+                      };
+                      allthestuff.push(info);
+                  }
+            break;
+            case "albums":
+              for(var index = 0; index < ob.length; index ++)
+                  {
+                      info =
+                      {
+                          name:       ob[index].name,
+                          image:      ob[index].images[0].url,
+                          artist:     ob[index].artists[0].name,
+                          type:       "album",
+                          id:         ob[index].id
+                      };
+                      allthestuff.push(info);
+                  }
+                  break;
+            case "artists":
+
+              console.log(ob);
+                for(var index = 0; index < ob.length; index ++)
+                {
+                      info =
+                      {
+                          name:       ob[index].name,
+                          image:      ob[index].images[0] ? ob[index].images[0].url : "",
+                          type:       "artist",
+                          id:         ob[index].id
+                      };
+                      allthestuff.push(info);
+                }
+                break;
+            }
+          }
+    }
+     catch(error)
+    {
+        console.error(error);
+    }
+    console.log("FINISHED");
+    return allthestuff;
+  }
+
+
+
+   Track = ({ track }) => {
+    return (
+
+      <View style={styles.songs}>
+      <Image style={styles.img}  source={{ uri: track.image }}/>
+      <View style= {styles.songInfo} >
+        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > { track.name } </Text>
+          <Text style ={styles.whiteText} >
+            Song  <MaterialIcons style={styles.dotIcon} name="music-note" size={15} color="white"/>
+          </Text>
+          </View>
+          </View>
+        );
+    }
+    render()
+    {
+      return (
+        <View style={styles.container}>
+              <View style={styles.searchSection}>
+
+                        <View style={styles.searchIcon}>
+                            <SearchIcon style={styles.searchIcon} name="search"/>
+                        </View>
+                          <TextInput
+                            style={styles.input_bar}
+                            onChangeText = {search => {
+                              this.typing(search);
+                            }}
+                          />
+                      <TouchableOpacity style={styles.SearchButton} onPress={this.searchTime}>
+                          <Text style={styles.ButtonText}> Search </Text>
+                      </TouchableOpacity>
+              </View>
+
+              <SafeAreaView style={styles.container}>
+              <FlatList
+                 data={this.state.stuff}
+                 renderItem={ ({ item }) => <ListSearchResults item={item} />}
+                 keyExtractor={ item => (item.name + item.id)}
+                 style = {styles.whiteText}
+               />
+             </SafeAreaView>
+
         </View>
 
-    <ScrollView style={styles.scroll} keyboardShouldPersistTaps='always'>
-      {stuff}
-    </ScrollView>
-
-  </View>
-
-
-)}
-
-
+      );
+    }
+}
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1D2025',
@@ -166,8 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f9',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
-
-
   },
   searchSection:
   {
@@ -207,7 +221,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     width: 150,
     height: 50,
-
   },
   img:
   {
@@ -238,7 +251,6 @@ const styles = StyleSheet.create({
   },
   songInfo:
   {
-
     width: 250,
     padding: 10,
   }
