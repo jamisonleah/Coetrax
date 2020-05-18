@@ -5,6 +5,11 @@ import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 export default function Details({route, navigation})
 {
     const { track } = route.params;
+
+    const alert = () =>
+    {
+        console.log("add song to PartyQueue Pending List");
+    }
     const createTwoButtonAlert = () =>
     Alert.alert(
       `You want to suggest ${track.name} `,
@@ -15,7 +20,7 @@ export default function Details({route, navigation})
           onPress: () => navigation.goBack(),
           style: "cancel"
         },
-        { text: "Yes", onPress: () => console.log("add song to PartyQueue Pending List") }
+        { text: "Yes", onPress: alert }
       ],
       { cancelable: true }
     );
