@@ -1,16 +1,20 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, {useState} from 'react';
-import { Image, SafeAreaView, FlatList ,Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { Image, SafeAreaView, FlatList ,Platform, StyleSheet, Text,  Alert, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import SongSearch from '../actions/songSearch'
 import SearchIcon from '../components/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AnimatedLoader from 'react-native-animated-loader';
-import ListSearchResults from '../components/ListSearchResults';
+import ListSearchResults from '../components/Search/ListSearchResults';
+import Styles from '../assets/StyleSheets/ScreenStyles';
+
 
 export default class Search extends React.Component
 {
+
+  //constrcutor needed for setState...I think...Well it's here
   constructor(props)
   {
     super(props);
@@ -21,8 +25,7 @@ export default class Search extends React.Component
         search_text: null
       };
   }
-
-
+  //Function that is called when you press Search :0
   searchTime = async () =>
   {
     if(this.state.search_text)
@@ -33,11 +36,14 @@ export default class Search extends React.Component
       this.setState({stuff: results});
     }
   }
+
+  //search_text changes everytime a user types
   typing = (text) =>
   {
       this.state.search_text = text;
-      console.log(this.state.search_text);
   }
+
+  //Take the results from the server and parse them into objects
   create_results = (results) =>
   {
     try
@@ -60,6 +66,8 @@ export default class Search extends React.Component
                           image:      ob[index].album[0].images[0].url,
                           artist:     ob[index].artists[0].name,
                           type:       "song",
+                          album:      ob[index].album[0],
+                          explicit:   ob[index].explicit,
                           id:         ob[index].id
                       };
                       allthestuff.push(info);
@@ -80,14 +88,12 @@ export default class Search extends React.Component
                   }
                   break;
             case "artists":
-
-              console.log(ob);
                 for(var index = 0; index < ob.length; index ++)
                 {
                       info =
                       {
                           name:       ob[index].name,
-                          image:      ob[index].images[0] ? ob[index].images[0].url : "",
+                          image:      ob[index].images[0] ? ob[index].images[0].url : "http://www.tiptoncommunications.com/components/com_easyblog/themes/wireframe/images/placeholder-image.png",
                           type:       "artist",
                           id:         ob[index].id
                       };
@@ -101,26 +107,10 @@ export default class Search extends React.Component
     {
         console.error(error);
     }
-    console.log("FINISHED");
+    //return all the stuff!
     return allthestuff;
   }
-
-
-
-   Track = ({ track }) => {
-    return (
-
-      <View style={styles.songs}>
-      <Image style={styles.img}  source={{ uri: track.image }}/>
-      <View style= {styles.songInfo} >
-        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > { track.name } </Text>
-          <Text style ={styles.whiteText} >
-            Song  <MaterialIcons style={styles.dotIcon} name="music-note" size={15} color="white"/>
-          </Text>
-          </View>
-          </View>
-        );
-    }
+    //Heres the main page!
     render()
     {
       return (
@@ -142,9 +132,10 @@ export default class Search extends React.Component
               </View>
 
               <SafeAreaView style={styles.container}>
+
               <FlatList
                  data={this.state.stuff}
-                 renderItem={ ({ item }) => <ListSearchResults item={item} />}
+                 renderItem={ ({ item }) => <ListSearchResults item={item} navigation={this.props.navigation}/>}
                  keyExtractor={ item => (item.name + item.id)}
                  style = {styles.whiteText}
                />
@@ -155,104 +146,6 @@ export default class Search extends React.Component
       );
     }
 }
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#1D2025',
-    flex: 1,
-  },
-  dotIcon:
-  {
-    padding: 15
-  },
-  scroll:
-  {
-    paddingTop: 20,
-    flex: 1,
 
-  },
-  whiteText:
-  {
-    color: 'white',
-    margin: 3
-  },
-  searchIcon:
-  {
-    height: 50,
-    padding: 10,
-    backgroundColor: '#f4f6f9',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  searchSection:
-  {
-    backgroundColor: '#3E4C59',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 150,
-    paddingTop: 50,
-    flexDirection: 'row',
-  },
-  input_bar:
-  {
-    flex: 1,
-    height: 50,
-    backgroundColor: '#f4f6f9',
-    borderColor: 'white',
-    //borderTopRightRadius: 10,
-    //borderBottomRightRadius: 10,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    color: '#424963',
-  },
-  ButtonText:
-  {
-    color: 'black',
-    fontSize: 15,
-  },
-  SearchButton:
-  {
-    backgroundColor: '#EEC8A0',
-    paddingHorizontal: 25,
-    paddingVertical: 15,
-    alignItems: 'center',
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    width: 150,
-    height: 50,
-  },
-  img:
-  {
-    borderColor: 'black',
-    height: 65,
-    width: 65,
-    paddingRight: 50,
-  },
-  imgcrlc:
-    {
-      borderColor: 'black',
-      height: 65,
-      width: 65,
-      paddingRight: 50,
-      borderRadius: 50,
-    },
-  songs:
-  {
-    flex: 1,
-    flexDirection: 'row',
-    //backgroundColor: '#1D2025',
-    backgroundColor: '#1D2025',
-    height: 100,
-    padding: 20,
-    color: 'black',
-    alignItems: 'center',
-
-  },
-  songInfo:
-  {
-    width: 250,
-    padding: 10,
-  }
-
-});
+//Style Sheets :)
+const styles = Styles();
