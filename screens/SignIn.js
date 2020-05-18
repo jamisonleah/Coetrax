@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import Auth_SignIn from '../actions/AppAuth';
 
@@ -6,28 +6,26 @@ import Auth_SignIn from '../actions/AppAuth';
 export default function SignIn({navigation}) {
   var email;
   var password;
-  var signInAttempts = 0;  
-  const maxSignInAttempts = 4;
+  var [signInAttempts, setSignInAttempts] = useState(4);
+  var [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
   const onPressSignIn = async () => {
-    signInAttempts += 1;
-    //console.log(signInAttempts);
     let response = await Auth_SignIn(email, password);
     console.log(response.status);
     if(response.status == 200) {
       navigation.navigate('Coetrax')
     } else {
-      // console.log(response.json)
+      setSignInAttempts(signInAttempts - 1);
+      setInvalidCredentials(true);
     }
   }
-  const calculateRemainingAttempts = () => maxSignInAttempts - signInAttempts;
 
   return (
     <View style={styles.container}>
       <Text style={styles.h1}> Coetrax </Text>
-      <Text style={styles.failed_login_text}> Email or password was incorrect. </Text>
+      {invalidCredentials ? <Text style={styles.failed_login_text}> Email or password was incorrect. </Text> : null}
       <View style={styles.input_container}>
           <TextInput
             style={styles.input_bar}
@@ -46,7 +44,7 @@ export default function SignIn({navigation}) {
           />
           <Text style={styles.white_text}> Forgot Password? </Text>
       </View>
-      <Text style={styles.failed_login_text}> Please try again. {calculateRemainingAttempts()} tries left. </Text>
+      {invalidCredentials ? <Text style={styles.failed_login_text}> Please try again. {signInAttempts} tries left. </Text> : null}
       <TouchableOpacity 
       style={styles.sign_in_button}
       onPress={onPressSignIn}>
