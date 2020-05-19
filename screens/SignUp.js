@@ -1,16 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { signUp } from '../actions/AppAuth'
 
 export default function SignUp({navigation}) {
   var email;
   var password;
+  var passwordConfirmation;
 
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
-  const verifyPassword = (text) => password == text;
-  const onPressSubmit = () => {
-    //Auth_SignUp(username, password);
-    navigation.navigate('SignIn')
+  const onPasswordConfirmationChange = (text) => passwordConfirmation = text;
+  
+  const onPressSubmit = async () => {
+    let response = await signUp(email, password, passwordConfirmation);
+    console.log(response.status);
+    if(response.status == 200) {
+      navigation.navigate('SignIn');
+    }
   }
 
   return (
@@ -35,8 +41,8 @@ export default function SignUp({navigation}) {
           <TextInput
             style={styles.input_bar}
             secureTextEntry = {true}
-            onChangeText={text => verifyPassword(text)}
-            value={password}
+            onChangeText={text => onPasswordConfirmationChange(text)}
+            value={passwordConfirmation}
             placeholder='Confirm Password'
             placeholderTextColor='#b5bab6'
           />

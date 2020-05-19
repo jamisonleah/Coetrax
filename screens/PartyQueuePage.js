@@ -1,11 +1,13 @@
 import React, {} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import { retrieveData } from '../actions/userProfile'
 
 
 export default function PartyQueuePage() {
-  const onPressCreateParty = () => {
+  const onPressCreateParty = async() => {
     // do something with backend
     // navigate
+    await retrieveData();
   }
 
   return (

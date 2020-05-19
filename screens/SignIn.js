@@ -1,23 +1,26 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
-import Auth_SignIn from '../actions/AppAuth';
+import { signIn } from '../actions/AppAuth';
+import { storeData } from '../actions/userProfile'
 
 
 export default function SignIn({navigation}) {
   var email;
   var password;
-  var [signInAttempts, setSignInAttempts] = useState(4);
+  //var [signInAttempts, setSignInAttempts] = useState(4); -- Not being used ATM
   var [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
   const onPressSignIn = async () => {
-    let response = await Auth_SignIn(email, password);
-    console.log(response.status);
+    let response = await signIn(email, password);
+    let headers = response.headers;
+    
     if(response.status == 200) {
+      storeData(headers)
       navigation.navigate('Coetrax')
     } else {
-      setSignInAttempts(signInAttempts - 1);
+      //setSignInAttempts(signInAttempts - 1);
       setInvalidCredentials(true);
     }
   }
@@ -44,7 +47,7 @@ export default function SignIn({navigation}) {
           />
           <Text style={styles.white_text}> Forgot Password? </Text>
       </View>
-      {invalidCredentials ? <Text style={styles.failed_login_text}> Please try again. {signInAttempts} tries left. </Text> : null}
+      {invalidCredentials ? <Text style={styles.failed_login_text}> Please try again. </Text> : null}
       <TouchableOpacity 
       style={styles.sign_in_button}
       onPress={onPressSignIn}>
