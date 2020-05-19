@@ -22,6 +22,7 @@ export default function SignIn({navigation}) {
     } else {
       //setSignInAttempts(signInAttempts - 1);
       setInvalidCredentials(true);
+      console.log(await response.json());
     }
   }
 

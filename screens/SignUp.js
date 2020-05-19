@@ -13,9 +13,11 @@ export default function SignUp({navigation}) {
   
   const onPressSubmit = async () => {
     let response = await signUp(email, password, passwordConfirmation);
-    console.log(response.status);
+
     if(response.status == 200) {
       navigation.navigate('SignIn');
+    } else {
+      console.log(await response.json()); // see 'errors'
     }
   }
 
