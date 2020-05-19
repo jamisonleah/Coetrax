@@ -13,7 +13,6 @@ const [value, onChangeText] = useState("Hello");
     <View style={styles.input_container}>
     <TextInput
       style={styles.input_bar}
-      //onChangeText={text => onChangeText(text)}
       value={value}
       />
       <TextInput

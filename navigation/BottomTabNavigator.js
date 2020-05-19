@@ -4,8 +4,8 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, TextInput } 
 import TabBarIcon from '../components/TabBarIcon';
 import MaterialIcons from '../components/MaterialIcons';
 import SignIn from '../screens/SignIn';
-import LinksScreen from '../screens/LinksScreen';
 import SpotifyScreen from '../screens/SpotifyScreen';
+import SearchScreen from '../screens/SearchScreen'
 
 
 const BottomTab = createBottomTabNavigator();
@@ -20,18 +20,19 @@ export default function BottomTabNavigator({ navigation, route }) {
   const hello = {
     style:
     {
-      backgroundColor: '#424953',
+      backgroundColor: '#282C33',
     }
   };
 
   return (
     <BottomTab.Navigator tabBarOptions={hello} initialRouteName={INITIAL_ROUTE_NAME}>
+
     <BottomTab.Screen
-      name="SignIn"
-      component={SignIn}
+      name="dynamic"
+      component={SearchScreen}
       options={{
-        title: 'SignIn',
-        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
+        title: 'SearchScreen',
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-search" />,
       }}
     />
     </BottomTab.Navigator>

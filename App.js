@@ -6,7 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import useLinking from './navigation/useLinking'; 
+import useLinking from './navigation/useLinking';
+import SongDetails from './components/Search/SubScreens/SongDetails';
+import AlbumDetails from './components/Search/SubScreens/AlbumDetails';
+import ArtistDetails from './components/Search/SubScreens/ArtistDetails';
+
+
 
 const Stack = createStackNavigator();
 
@@ -51,6 +56,9 @@ export default function App(props) {
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Coetrax" component={BottomTabNavigator} />
+            <Stack.Screen name="songdetails" component={SongDetails} />
+            <Stack.Screen name="albumdetails" component={AlbumDetails} />
+            <Stack.Screen name="artistdetails" component={ArtistDetails} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
