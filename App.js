@@ -7,9 +7,14 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import useLinking from './navigation/useLinking'; 
 import SignIn from './screens/SignIn'
 import SignUp from './screens/SignUp'
+import useLinking from './navigation/useLinking';
+import SongDetails from './components/Search/SubScreens/SongDetails';
+import AlbumDetails from './components/Search/SubScreens/AlbumDetails';
+import ArtistDetails from './components/Search/SubScreens/ArtistDetails';
+
+
 
 const Stack = createStackNavigator();
 
@@ -48,18 +53,22 @@ export default function App(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-              <Stack.Screen name="SignIn" component={SignIn} /> 
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="Coetrax" component={BottomTabNavigator} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
-      );
+
+    return (
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Coetrax" component={BottomTabNavigator} />
+            <Stack.Screen name="songdetails" component={SongDetails} />
+            <Stack.Screen name="albumdetails" component={AlbumDetails} />
+            <Stack.Screen name="artistdetails" component={ArtistDetails} />
+            <Stack.Screen name="SignIn" component={SignIn} /> 
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    );
   }
 }
 
