@@ -3,9 +3,12 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import SignIn from './screens/SignIn'
+import SignUp from './screens/SignUp'
 import useLinking from './navigation/useLinking';
 import SongDetails from './components/Search/SubScreens/SongDetails';
 import AlbumDetails from './components/Search/SubScreens/AlbumDetails';
@@ -50,6 +53,7 @@ export default function App(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
+
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -59,6 +63,8 @@ export default function App(props) {
             <Stack.Screen name="songdetails" component={SongDetails} />
             <Stack.Screen name="albumdetails" component={AlbumDetails} />
             <Stack.Screen name="artistdetails" component={ArtistDetails} />
+            <Stack.Screen name="SignIn" component={SignIn} /> 
+            <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

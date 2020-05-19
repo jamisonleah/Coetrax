@@ -1,35 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
-import { signIn } from '../actions/AppAuth';
-import { storeData } from '../actions/userProfile'
+import { signUp } from '../actions/AppAuth'
 
-
-export default function SignIn({navigation}) {
+export default function SignUp({navigation}) {
   var email;
   var password;
-  //var [signInAttempts, setSignInAttempts] = useState(4); -- Not being used ATM
-  var [invalidCredentials, setInvalidCredentials] = useState(false);
+  var passwordConfirmation;
 
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
-  const onPressSignIn = async () => {
-    let response = await signIn(email, password);
-    let headers = response.headers;
-    
+  const onPasswordConfirmationChange = (text) => passwordConfirmation = text;
+  
+  const onPressSubmit = async () => {
+    let response = await signUp(email, password, passwordConfirmation);
+
     if(response.status == 200) {
-      storeData(headers)
-      navigation.navigate('Coetrax')
+      navigation.navigate('SignIn');
     } else {
-      //setSignInAttempts(signInAttempts - 1);
-      setInvalidCredentials(true);
-      console.log(await response.json());
+      console.log(await response.json()); // see 'errors'
     }
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.h1}> Coetrax </Text>
-      {invalidCredentials ? <Text style={styles.failed_login_text}> Email or password was incorrect. </Text> : null}
       <View style={styles.input_container}>
           <TextInput
             style={styles.input_bar}
@@ -46,17 +40,20 @@ export default function SignIn({navigation}) {
             placeholder='Password'
             placeholderTextColor='#b5bab6'
           />
-          <Text style={styles.white_text}> Forgot Password? </Text>
+          <TextInput
+            style={styles.input_bar}
+            secureTextEntry = {true}
+            onChangeText={text => onPasswordConfirmationChange(text)}
+            value={passwordConfirmation}
+            placeholder='Confirm Password'
+            placeholderTextColor='#b5bab6'
+          />
       </View>
-      {invalidCredentials ? <Text style={styles.failed_login_text}> Please try again. </Text> : null}
       <TouchableOpacity 
-      style={styles.sign_in_button}
-      onPress={onPressSignIn}>
-          <Text style={styles.sign_in_button_text}> Sign In </Text>
+      style={styles.submit_button}
+      onPress={onPressSubmit}>
+          <Text style={styles.submit_button_text}> Submit </Text>
       </TouchableOpacity>
-      <Text style={styles.white_text}> Don't have an account? 
-        <Text style={styles.blue_text} onPress={() => navigation.navigate('SignUp')}> Sign Up </Text> 
-      </Text>
     </View>
   );
 }
@@ -68,14 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'white',
-  },
-
-  blue_text: {
-    color: '#35bb9b',
-  },
-
-  white_text: {
     color: 'white',
   },
 
@@ -106,12 +95,12 @@ const styles = StyleSheet.create({
     color: '#424963',
   },
 
-  sign_in_button_text: {
+  submit_button_text: {
     color: 'white',
     fontSize: 15,
   },
 
-  sign_in_button: {
+  submit_button: {
     margin: 25,
     backgroundColor: '#35bb9b',
     paddingHorizontal: 25,
@@ -121,7 +110,7 @@ const styles = StyleSheet.create({
     width: 150,
   },
 
-  failed_login_text: {
+  invalid_credentials_text: {
     color: 'orange'
   },
 });
