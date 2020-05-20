@@ -13,6 +13,10 @@ import useLinking from './navigation/useLinking';
 import SongDetails from './components/Search/SubScreens/SongDetails';
 import AlbumDetails from './components/Search/SubScreens/AlbumDetails';
 import ArtistDetails from './components/Search/SubScreens/ArtistDetails';
+import SearchScreen from './screens/SearchScreen';
+import SpotifyScreen from './screens/SpotifyScreen';
+
+
 
 
 
@@ -59,12 +63,14 @@ export default function App(props) {
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="SignIn" component={SignIn} /> 
+            <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Coetrax" component={BottomTabNavigator} />
+            <Stack.Screen name="SearchScreen" component={SearchScreen} />
             <Stack.Screen name="songdetails" component={SongDetails} />
             <Stack.Screen name="albumdetails" component={AlbumDetails} />
             <Stack.Screen name="artistdetails" component={ArtistDetails} />
+            <Stack.Screen name="spotifyscreen" component={SpotifyScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

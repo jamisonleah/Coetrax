@@ -6,6 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { FontAwesome } from '@expo/vector-icons';
 import Credentials from '../secrets/SpotifyCredentials';
 import Base64 from 'Base64';
+import { retrieveHeader, retrieveData } from './userProfile';
 
 
 //Spotify Secrets
@@ -45,7 +46,6 @@ export default async function SpotifyAuth()
       }
       else
       {
-        console.log("waiting for spotify authentication");
         const response = await fetch('https://accounts.spotify.com/api/token',
         {
           method: 'POST',
@@ -63,27 +63,15 @@ export default async function SpotifyAuth()
 
         //send information to the server so it can handle refreshing tokens when needed
         const data = { access_token: responseJson.access_token, refresh_token: responseJson.refresh_token};
-        const apithings = await fetch('http://159.203.160.33:5000/me/spotify/token_assign',
+        const apithings = await fetch('http://159.203.160.33/me/spotify/token_assign',
       {
         method: 'POST',
-        headers:
-        {
-          //this is an example header...should be saved somewhere
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'access-token':'TobwOhg8cbGd39H4ZAVvrA',
-          'token-type':'Bearer',
-          'client':'1GG2ACCH26EuO6AQzt8Z8Q',
-          'expiry':'1589129715',
-          'uid':'lxj9480@rit.edu',
-        },
+        headers: await retrieveHeader(),
         body: JSON.stringify(data),
       });
 
-
-      //
-      var hello  = await apithings.json();
-      console.log(hello);
+        console.log("finished");
+        return apithings;
 
       }
 }

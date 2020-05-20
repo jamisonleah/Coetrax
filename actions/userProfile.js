@@ -14,7 +14,6 @@ token-type:Bearer
 client:1GG2ACCH26EuO6AQzt8Z8Q
 expiry:1589129715
 uid:lxj9480@rit.edu */
-
 export async function storeData(authHeaders){
     AsyncStorage.setItem('access-token', authHeaders.get('access-token'));
     AsyncStorage.setItem('token-type', authHeaders.get('token-type'));
@@ -30,6 +29,27 @@ export async function retrieveData(){
       console.log("client: " + await AsyncStorage.getItem('client'));
       console.log("expiry: " + await AsyncStorage.getItem('expiry'));
       console.log("uid: " + await AsyncStorage.getItem('uid'));
+   } catch (error) {
+     // Error retrieving data
+     console.log(error);
+   }
+}
+
+export async function retrieveHeader(){
+  try {
+
+      const header =
+      {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'access-token': await AsyncStorage.getItem('access-token'),
+          'token-type': await AsyncStorage.getItem('token-type'),
+          client: await AsyncStorage.getItem('client'),
+          expiry: await AsyncStorage.getItem('expiry'),
+          uid: await AsyncStorage.getItem('uid'),
+      }
+
+      return header;
    } catch (error) {
      // Error retrieving data
      console.log(error);

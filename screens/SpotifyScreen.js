@@ -8,54 +8,24 @@ import Base64 from 'Base64';
 import SpotifyAuth from '../actions/SpotifyAuth';
 
 
-//Feel Free to edit this... It 
+//Feel Free to edit this... It
 export default class App extends React.Component {
   state = {
     userInfo: null,
     didError: false
   };
 
-displayError = () => {
-  return (
-    <View style={styles.userInfo}>
-      <Text style={styles.errorText}>
-        There was an error, please try again.
-      </Text>
-    </View>
-  );
-}
-displayResults = () => {
-  { return this.state.userInfo ? (
-    <View style={styles.userInfo}>
-      <Image
-        style={styles.profileImage}
-        source={ {'uri': this.state.userInfo.images[0].url} }
-      />
-      <View>
-        <Text style={styles.userInfoText}>
-          Username:
-        </Text>
-        <Text style={styles.userInfoText}>
-          {this.state.userInfo.id}
-        </Text>
-        <Text style={styles.userInfoText}>
-          Email:
-        </Text>
-        <Text style={styles.userInfoText}>
-          {this.state.userInfo.email}
-        </Text>
-      </View>
-    </View>
-  ) : (
-    <View style={styles.userInfo}>
-      <Text style={styles.userInfoText}>
-        Login to Spotify to see user data.
-      </Text>
-    </View>
-  )}
-}
+  authorize = async () =>
+  {
+    var loggedIn = await SpotifyAuth();
+    if(loggedIn.status == 200)
+    {
+      this.props.navigation.replace("Coetrax");
+    }
+  }
 
 render() {
+
   return (
     <View style={styles.container}>
       <FontAwesome
@@ -65,17 +35,14 @@ render() {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={SpotifyAuth}
+        onPress={this.authorize}
         disabled={this.state.userInfo ? true : false}
       >
         <Text style={styles.buttonText}>
           Login with Spotify
         </Text>
       </TouchableOpacity>
-      {this.state.didError ?
-        this.displayError() :
-        this.displayResults()
-      }
+
     </View>
   );
 }

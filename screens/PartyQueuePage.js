@@ -3,12 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-nativ
 import { retrieveData } from '../actions/userProfile'
 
 
-export default function PartyQueuePage() {
+export default function PartyQueuePage({navigation}) {
   const onPressCreateParty = async() => {
     // do something with backend
     // navigate
-    await retrieveData();
+    //await retrieveData();
   }
+  console.log(navigation);
 
   return (
     <View style={styles.container}>
@@ -20,13 +21,13 @@ export default function PartyQueuePage() {
             placeholderTextColor='#b5bab6'
           />
       </View>
-      <TouchableOpacity 
+      <TouchableOpacity
       style={styles.join_button}
       onPress={onPressCreateParty}>
           <Text style={styles.join_button_text}> Join </Text>
       </TouchableOpacity>
-      <Text style={styles.white_text}> Wanna be the leader? 
-        <Text style={styles.blue_text}> Make a party </Text> 
+      <Text style={styles.white_text}> Wanna be the leader?
+        <Text style={styles.blue_text}> Make a party </Text>
       </Text>
     </View>
   );

@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 
 export default function TabBarIcon(props) {
   return (
-    <MaterialIcons
+    <MaterialCommunityIcons
       name={props.name}
       size={30}
       style={{ marginBottom: -3 }}
