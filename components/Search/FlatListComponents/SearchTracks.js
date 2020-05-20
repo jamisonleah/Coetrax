@@ -18,6 +18,9 @@ export default function Track ({track, navigation}) {
               <Text style ={styles.whiteText} >  Song <MaterialIcons style={styles.dotIcon} name="music-note" size={15} color="white"/> { track.artist }
             </Text>
           </View>
+          <View style={styles.rightBlock}>
+            <MaterialCommunityIcons name="dots-horizontal" size={24} color="white" />
+          </View>
         </View>
     </TouchableOpacity>
 

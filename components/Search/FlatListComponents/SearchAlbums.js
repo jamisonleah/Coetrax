@@ -10,14 +10,17 @@ export default function Album ({ album, navigation }) {
   return (
 
         <TouchableHighlight activeOpacity={.6} underlayColor= '#35bb9b' style={styles.pressedButton} onPress = {() => navigation.navigate('albumdetails', {album: album})}>
-        <View style={styles.songs}>
-        <Image style={styles.img}  source={{ uri: album.image }}/>
-        <View style= {styles.songInfo} >
-          <Text numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > { album.name }  </Text>
-            <Text style ={styles.whiteText} >
-              Album  <MaterialIcons style={styles.dotIcon} name="album" size={15} color="white"/> { album.artist }
-            </Text>
-            </View>
+          <View style={styles.songs}>
+              <Image style={styles.img}  source={{ uri: album.image }}/>
+                  <View style= {styles.songInfo} >
+                      <Text numberOfLines={1} ellipsizeMode='tail' style={styles.whiteText} > { album.name }  </Text>
+                        <Text style ={styles.whiteText} >
+                          Album  <MaterialIcons style={styles.dotIcon} name="album" size={15} color="white"/> { album.artist }
+                        </Text>
+                  </View>
+                  <View style={styles.rightBlock}>
+                    <MaterialIcons name="keyboard-arrow-right" size={24} color="white" />
+                  </View>
             </View>
             </TouchableHighlight>
           );

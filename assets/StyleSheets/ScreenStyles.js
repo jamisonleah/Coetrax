@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   whiteText:
   {
     color: 'white',
-    margin: 3
   },
   searchIcon:
   {
@@ -89,18 +88,26 @@ const styles = StyleSheet.create({
   {
     flex: 1,
     flexDirection: 'row',
-    //backgroundColor: '#1D2025',
     backgroundColor: '#1D2025',
     height: 100,
-    padding: 20,
     color: 'black',
     alignItems: 'center',
+    padding: 5
+
 
   },
   songInfo:
   {
     width: 250,
+    height: 65,
     padding: 10,
+  },
+  rightBlock:
+  {
+    height: 65,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
 });
