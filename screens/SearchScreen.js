@@ -2,7 +2,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, {useState} from 'react';
 import { Image, SafeAreaView, FlatList ,Platform, StyleSheet, Text,  Alert, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import SongSearch from '../actions/songSearch'
+import { getMethod } from '../actions/ServerSearch'
 import SearchIcon from '../components/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import Styles from '../assets/StyleSheets/ScreenStyles';
 
 export default class Search extends React.Component
 {
+
 
   //constrcutor needed for setState...I think...Well it's here
   constructor(props)
@@ -31,7 +32,7 @@ export default class Search extends React.Component
     if(this.state.search_text)
     {
       this.state.stuff = [];
-      var text = await SongSearch(this.state.search_text);
+      var text = await getMethod(`/search/${this.state.search_text}/`);
       var results = this.create_results(text);
       this.setState({stuff: results});
     }
