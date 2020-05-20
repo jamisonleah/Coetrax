@@ -8,11 +8,12 @@ import Credentials from '../secrets/SpotifyCredentials';
 import Base64 from 'Base64';
 import { retrieveHeader, retrieveData } from './userProfile';
 
+const server = "http://159.203.160.33";
 
 
    export async function getMethod (endpoint)
    {
-    const server = "http://159.203.160.33";
+
     try {
       const response = await fetch(server + endpoint ,
       {
@@ -28,4 +29,46 @@ import { retrieveHeader, retrieveData } from './userProfile';
     } catch (error) {
       console.log(error);
     }
+  }
+
+  export async function postMethod(endpoint, body)
+  {
+    try {
+      const response = await fetch(server + endpoint ,
+      {
+        method: 'POST',
+        headers: await retrieveHeader(),
+        body: body
+      });
+
+
+      var jsonstuff = await response.json();
+      return jsonstuff;
+
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  export async function putMethod(endpoint, body)
+  {
+    try {
+      const response = await fetch(server + endpoint ,
+      {
+        method: 'PUT',
+        headers: await retrieveHeader(),
+        body: body
+      });
+
+
+      var jsonstuff = await resp.json();
+      return jsonstuff;
+
+
+    } catch (error) {
+      console.log(error);
+    }
+
   }
