@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
-import { signUp } from '../actions/AppAuth'
+import { signUp } from '../actions/AppAuth';
+import Styles from '../assets/StyleSheets/HomeScreenStyles';
+
 
 export default function SignUp({navigation}) {
+  const styles = Styles();
   var email;
   var password;
   var passwordConfirmation;
@@ -10,7 +13,7 @@ export default function SignUp({navigation}) {
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
   const onPasswordConfirmationChange = (text) => passwordConfirmation = text;
-  
+
   const onPressSubmit = async () => {
     let response = await signUp(email, password, passwordConfirmation);
 
@@ -23,7 +26,9 @@ export default function SignUp({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}> Coetrax </Text>
+      <View style={styles.header}>
+        <Text style={styles.h1}> Register </Text>
+      </View>
       <View style={styles.input_container}>
           <TextInput
             style={styles.input_bar}
@@ -32,6 +37,9 @@ export default function SignUp({navigation}) {
             placeholder='Email'
             placeholderTextColor='#b5bab6'
           />
+          <View style={styles.break}>
+
+          </View>
           <TextInput
             style={styles.input_bar}
             secureTextEntry = {true}
@@ -49,68 +57,17 @@ export default function SignUp({navigation}) {
             placeholderTextColor='#b5bab6'
           />
       </View>
-      <TouchableOpacity 
-      style={styles.submit_button}
+
+      <TouchableOpacity
+      style={styles.button_one}
       onPress={onPressSubmit}>
-          <Text style={styles.submit_button_text}> Submit </Text>
+          <Text style={styles.button_text}> Submit </Text>
       </TouchableOpacity>
-    </View>
+
+      <Text style={styles.white_text}> Have an Account?
+        <Text style={styles.hyperlink} onPress={() => navigation.navigate('SignIn')}> Sign In </Text>
+      </Text>
+
+      </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    backgroundColor: '#424953',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-  },
-
-  input_container: {
-    color: 'black',
-    marginTop: 20,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  h1: {
-    alignItems: 'center',
-    fontSize: 50,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 40
-  },
-
-  input_bar: {
-    margin: 20,
-    height: 50,
-    width: 350,
-    backgroundColor: '#f4f6f9',
-    borderColor: 'white',
-    borderRadius: 10,
-    padding: 10,
-    color: '#424963',
-  },
-
-  submit_button_text: {
-    color: 'white',
-    fontSize: 15,
-  },
-
-  submit_button: {
-    margin: 25,
-    backgroundColor: '#35bb9b',
-    paddingHorizontal: 25,
-    paddingVertical: 20,
-    alignItems: 'center',
-    borderRadius: 50,
-    width: 150,
-  },
-
-  invalid_credentials_text: {
-    color: 'orange'
-  },
-});
