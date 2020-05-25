@@ -11,6 +11,7 @@ export default function Details({route, navigation})
         console.log("add song to PartyQueue Pending List");
     }
     const createTwoButtonAlert = () =>
+    {
     Alert.alert(
       `You want to suggest ${track.name} `,
       "",
@@ -24,33 +25,35 @@ export default function Details({route, navigation})
       ],
       { cancelable: true }
     );
-
+    }
+    const explicit = () =>
+    {
+      return (<MaterialIcons style={styles.whiteText} name="explicit" size={15} color="white"/>);
+    }
+    const clean = () =>
+    {
+      return (<MaterialCommunityIcons style={styles.whiteText} name="set-none" size={24} color="white"/>);
+    }
     const back = () =>
     {
         navigation.goBack();
     }
     return (
       <View style={styles.container}>
-          <View style={styles.song_info}>
-          <Image style={styles.img}  source={{ uri: track.image }}/>
-
+      <View style={styles.top}>
+        <Image style={styles.img}  source={{ uri: track.image }}/>
+        <MaterialIcons onPress={back} style={styles.backButton} name="chevron-left" size={40} color="white" />
+      </View>
                 <View style={styles.song_details}>
 
-                <Text numberOfLines={2} ellipsizeMode='tail' style={styles.whiteText} > { track.name } </Text>
-                    <Text style={styles.whiteText}>  {track.artist} </Text>
-                    <Text style={styles.whiteText}> {track.album.name} </Text>
+                  <Text numberOfLines={2} ellipsizeMode='tail' style={styles.trackName}>{track.name}</Text>
+                  <Text style={styles.whiteText}>{track.artist}</Text>
+                {track.explicit ? explicit() : clean()  }
+                </View>
 
-                    {track.explicit ?
-                  <MaterialIcons style={styles.whiteText} name="explicit" size={15} color="white"/>
-                    : <MaterialCommunityIcons style={styles.whiteText} name="set-none" size={24} color="white" /> }
-                    </View>
-        </View>
         <View style={styles.twoButtons}>
         <TouchableOpacity style={styles.green_button} onPress={createTwoButtonAlert}>
           <Text> Suggest </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.white_button} onPress = {back}>
-          <Text> Cancel </Text>
         </TouchableOpacity>
         </View>
       </View>
@@ -59,34 +62,26 @@ export default function Details({route, navigation})
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1D2025',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'baseline',
     flex: 1,
+
   },
   whiteText:
   {
     color: 'white',
-    margin: 3,
-    textAlign: 'right',
-    fontWeight: 'bold'
+    margin: 10,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'multicolore'
 
-  },
-  suggest:
-  {
-    backgroundColor: "#EEC8A0"
-  },
-  cancel:
-  {
-    backgroundColor: "white"
+
   },
   twoButtons:
   {
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-  },
-  ButtonText:
-  {
-    color: 'white',
-    fontSize: 15,
   },
   green_button:
   {
@@ -94,40 +89,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 20,
     alignItems: 'center',
-    borderRadius: 50,
+    justifyContent: 'center',
+    borderRadius: 10,
     backgroundColor: '#35bb9b',
-    width: 150,
-  },
-  white_button:
-  {
-    margin: 25,
-    paddingHorizontal: 25,
-    paddingVertical: 20,
-    alignItems: 'center',
-    borderRadius: 50,
-    backgroundColor: 'white',
-    width: 150,
+    width: 250,
+    width: Dimensions.get('window').width,
+
   },
   img:
   {
     borderColor: 'black',
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-  },
-  song_info:
-  {
+    height: Dimensions.get('window').width,
     width: Dimensions.get('window').width,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
+    borderBottomRightRadius: 100,
+    borderWidth: 10,
   },
   song_details:
   {
-    padding: 10,
+
     flexDirection: 'column',
-    width: 200,
+  },
+  backButton:
+  {
+    paddingTop: 50,
+    paddingLeft: 20,
+    position: 'absolute'
+  },
+  trackName:
+  {
+    margin: 10,
+    fontSize: 25,
+    color: 'white',
+    fontFamily: 'multicolore'
   }
 
 

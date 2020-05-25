@@ -32,10 +32,11 @@ const styles = StyleSheet.create({
   },
   searchSection:
   {
+    top: 20,
     backgroundColor: '#1D2025',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 150,
+    height: 100,
     padding: 25,
     flexDirection: 'row',
   },
