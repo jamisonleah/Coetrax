@@ -1,4 +1,4 @@
-import {StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 
 export default function Styles ()
@@ -24,34 +24,32 @@ const styles = StyleSheet.create({
   },
   searchIcon:
   {
-    height: 50,
+    height: 35,
     padding: 10,
-    backgroundColor: '#f4f6f9',
+    backgroundColor: '#15171A',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
   searchSection:
   {
-    backgroundColor: '#3E4C59',
+    backgroundColor: '#1D2025',
     justifyContent: 'center',
     alignItems: 'center',
     height: 150,
-    paddingTop: 50,
+    padding: 25,
     flexDirection: 'row',
   },
   input_bar:
   {
     flex: 1,
-    height: 50,
-    backgroundColor: '#f4f6f9',
+    height: 35,
+    backgroundColor: '#15171A',
     borderColor: 'white',
-    //borderTopRightRadius: 10,
-    //borderBottomRightRadius: 10,
     paddingTop: 10,
     paddingRight: 10,
     paddingBottom: 10,
     paddingLeft: 0,
-    color: '#424963',
+    color: 'white',
   },
   ButtonText:
   {
@@ -60,14 +58,14 @@ const styles = StyleSheet.create({
   },
   SearchButton:
   {
-    backgroundColor: '#EEC8A0',
-    paddingHorizontal: 25,
-    paddingVertical: 15,
+    backgroundColor: '#35bb9b',
+    paddingHorizontal: 10,
     alignItems: 'center',
+    justifyContent: 'center',
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
-    width: 150,
-    height: 50,
+    width: 100,
+    height: 35,
   },
   img:
   {
@@ -94,20 +92,95 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5
 
-
   },
   songInfo:
   {
-    width: 250,
-    height: 65,
-    padding: 10,
+      width: 250,
+      height: 65,
+      padding: 10,
   },
   rightBlock:
   {
-    height: 65,
-    padding: 10,
-    alignItems: 'center',
+      height: 65,
+      padding: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+  },
+  smallBlock:
+  {
+      //backgroundColor: 'blue',
+      width: 100,
+      height: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 5,
+      flex: 1,
+
+  },
+  bigBlock:
+  {
+      width: 210,
+      height: 210,
+      //backgroundColor: 'coral',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 5
+  },
+  mosaic:
+  {
+    flexDirection: 'row',
     justifyContent: 'center',
+    borderColor: 'black',
+
+  },
+  blockgroup:
+  {
+    flexDirection: 'column',
+
+  },
+  lengthyBlock:
+  {
+
+  },
+  zane:
+  {
+    width: 250,
+    height: 250,
+  },
+  bigfavs:
+  {
+
+    width: 210,
+    height: 210,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: .5,
+
+  },
+  smallfavs:
+  {
+
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 1,
+
+  },
+  mosaicCover:
+  {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  center:
+  {
+    color: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: "absolute",
+    fontWeight: 'bold',
+    textAlign: 'center',
+
   }
 
 });

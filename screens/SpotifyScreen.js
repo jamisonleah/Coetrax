@@ -39,7 +39,7 @@ render() {
         disabled={this.state.userInfo ? true : false}
       >
         <Text style={styles.buttonText}>
-          Login with Spotify
+          Connect your Spotify
         </Text>
       </TouchableOpacity>
 

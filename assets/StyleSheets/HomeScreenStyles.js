@@ -6,7 +6,7 @@ export default function Styles ()
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: '#2B3037',
+    backgroundColor: '#1D2025',
     flex: 1,
     alignItems: 'center',
     color: 'white',
@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
   white_text: {
     color: 'white',
   },
-
-
 
 
 });

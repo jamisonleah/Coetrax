@@ -3,13 +3,12 @@ import React, {useState} from 'react';
 import { Image, SafeAreaView, FlatList ,Platform, StyleSheet, Text,  Alert, TouchableOpacity, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getMethod } from '../actions/ServerSearch'
-import SearchIcon from '../components/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AnimatedLoader from 'react-native-animated-loader';
 import ListSearchResults from '../components/Search/ListSearchResults';
 import Styles from '../assets/StyleSheets/ScreenStyles';
-
+import Mosaic from '../components/Search/Mosaic';
 
 export default class Search extends React.Component
 {
@@ -23,9 +22,24 @@ export default class Search extends React.Component
     {
         stuff: [],
         results: [],
-        search_text: null
+        search_text: null,
+        mosaic: [],
+        entered: false
       };
   }
+  getData = async () =>
+  {
+    var tracks = await getMethod(`/you`);
+    var extrastep = [];
+    extrastep.push(tracks);
+    this.setState({mosaic : extrastep});
+  }
+  componentDidMount()
+  {
+    this.getData();
+  }
+
+
   //Function that is called when you press Search :0
   searchTime = async () =>
   {
@@ -35,6 +49,10 @@ export default class Search extends React.Component
       var text = await getMethod(`/search/${this.state.search_text}/`);
       var results = this.create_results(text);
       this.setState({stuff: results});
+      this.state.entered = true;
+
+      this.getData();
+      console.log(this.state.entered);
     }
   }
 
@@ -119,7 +137,7 @@ export default class Search extends React.Component
               <View style={styles.searchSection}>
 
                         <View style={styles.searchIcon}>
-                            <SearchIcon style={styles.searchIcon} name="search"/>
+                          <MaterialIcons style={styles.whiteText} name="search" size={15} color="white"/>
                         </View>
                           <TextInput
                             style={styles.input_bar}
@@ -133,13 +151,23 @@ export default class Search extends React.Component
               </View>
 
               <SafeAreaView style={styles.container}>
-
+              {this.state.entered ?
               <FlatList
                  data={this.state.stuff}
                  renderItem={ ({ item }) => <ListSearchResults item={item} navigation={this.props.navigation}/>}
                  keyExtractor={ item => (item.name + item.id)}
                  style = {styles.whiteText}
                />
+
+               :
+               <FlatList
+                  data={this.state.mosaic}
+                  renderItem={ ({ item }) => <Mosaic item={item} navigation={this.props.navigation}/>}
+                  keyExtractor={ item => ("Mosaic")}
+                  style = {styles.whiteText}
+                />
+
+              }
              </SafeAreaView>
 
         </View>

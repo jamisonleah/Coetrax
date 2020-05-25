@@ -32,6 +32,8 @@ export default function BottomTabNavigator({ navigation, route }) {
   var [spotify_connected, setSpotifyBoolean] = React.useState(false);
 
   stuff(setSpotifyBoolean);
+
+
   const hello = {
     style:
     {
