@@ -43,6 +43,7 @@ export default function Mosaic({item, navigation})
                   explicit:   track.explicit,
                   id:         track.id
               };
+          console.log(info.name + " ID:" + info.id);
           return info;
 
   }

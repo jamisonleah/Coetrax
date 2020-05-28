@@ -11,7 +11,7 @@ import HomeScreen from '../screens/HomeScreen';
 import PartyQueuePage from '../screens/PartyQueuePage';
 import SearchScreen from '../screens/SearchScreen';
 import {getMethod} from '../actions/ServerSearch';
-
+import MusicPlayer from '../components/Search/SubScreens/MusicPlayerScreen.js'
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -81,6 +81,15 @@ export default function BottomTabNavigator({ navigation, route }) {
 
 
     {spotify_connected ? searchscreen() : spotifyscreen() }
+
+    <BottomTab.Screen
+      name="MusicPlayer"
+      component={MusicPlayer}
+      options={{
+        title: 'MusicPlayer',
+        tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-musical-notes" />,
+      }}
+    />
 
     </BottomTab.Navigator>
   );
