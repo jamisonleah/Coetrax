@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { signUp } from '../actions/AppAuth'
 
@@ -6,24 +6,38 @@ export default function SignUp({navigation}) {
   var email;
   var password;
   var passwordConfirmation;
-
+  var [invalidCredentials, setInvalidCredentials] = useState(false);
+  var [errorMessage, setErrorMessage] = useState();
   const onUsernameChange = (text) => email = text;
   const onPasswordChange = (text) => password = text;
   const onPasswordConfirmationChange = (text) => passwordConfirmation = text;
   
   const onPressSubmit = async () => {
     let response = await signUp(email, password, passwordConfirmation);
-
+    console.log(email);
     if(response.status == 200) {
       navigation.navigate('SignIn');
     } else {
-      console.log(await response.json()); // see 'errors'
+      let json = await response.json();
+      let errors = "";
+      json.errors.full_messages.forEach(element => {
+        errors = errors.concat(element);
+        errors = errors.concat(".\n");
+      });
+
+      setInvalidCredentials(true);
+      setErrorMessage(errors);
     }
   }
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+      style={styles.close_button}
+      onPress={() => navigation.navigate('SignIn')}>
+      </TouchableOpacity>
       <Text style={styles.h1}> Coetrax </Text>
+      {invalidCredentials ? <Text style={styles.invalid_credentials_text}>{errorMessage}</Text> : null}
       <View style={styles.input_container}>
           <TextInput
             style={styles.input_bar}
@@ -49,10 +63,11 @@ export default function SignUp({navigation}) {
             placeholderTextColor='#b5bab6'
           />
       </View>
+      {invalidCredentials ? <Text style={styles.invalid_credentials_text}> Please try again. </Text> : null}
       <TouchableOpacity 
       style={styles.submit_button}
       onPress={onPressSubmit}>
-          <Text style={styles.submit_button_text}> Submit </Text>
+          <Text style={styles.submit_button_text}> Sign Up </Text>
       </TouchableOpacity>
     </View>
   );
@@ -70,7 +85,6 @@ const styles = StyleSheet.create({
 
   input_container: {
     color: 'black',
-    marginTop: 20,
     marginBottom: 20,
     justifyContent: 'center',
     alignItems: 'center'
@@ -81,7 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: 'bold',
     color: 'white',
-    marginBottom: 40
+    marginBottom: 20
   },
 
   input_bar: {
@@ -101,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   submit_button: {
-    margin: 25,
+    margin: 20,
     backgroundColor: '#35bb9b',
     paddingHorizontal: 25,
     paddingVertical: 20,
@@ -111,6 +125,11 @@ const styles = StyleSheet.create({
   },
 
   invalid_credentials_text: {
-    color: 'orange'
+    color: 'orange',
+    textAlign: 'center'
   },
+
+  close_button: {
+
+  }
 });

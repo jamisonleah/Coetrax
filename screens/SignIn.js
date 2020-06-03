@@ -22,12 +22,12 @@ export default function SignIn({navigation}) {
     } else {
       //setSignInAttempts(signInAttempts - 1);
       setInvalidCredentials(true);
-      console.log(await response.json());
     }
   }
 
   return (
     <View style={styles.container}>
+      
       <Text style={styles.h1}> Coetrax </Text>
       {invalidCredentials ? <Text style={styles.failed_login_text}> Email or password was incorrect. </Text> : null}
       <View style={styles.input_container}>
@@ -124,4 +124,5 @@ const styles = StyleSheet.create({
   failed_login_text: {
     color: 'orange'
   },
+
 });
